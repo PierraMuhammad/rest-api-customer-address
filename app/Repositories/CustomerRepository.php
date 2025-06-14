@@ -15,7 +15,6 @@ class CustomerRepository
     public function findById(int $id)
     {
         $data = Customer::with('address')->where('id', $id)->first();
-
         if (!$data) {
             Log::warning("Customer Repository : Customer " . $id . " not found");
         }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\AddressService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AddressController extends Controller
 {
@@ -25,12 +26,14 @@ class AddressController extends Controller
             ]);
             $data = $this->addressService->create($validate);
 
+            Log::info('Address Controller : Success create Address');
             return response()->json([
                 'code' => 200,
                 'message' => 'Ok',
                 'data' => $data
             ]);
         } catch (Exception $e) {
+            Log::error('Address Controller : got error => ' . $e->getMessage());
             return response()->json([
                 'code' => 500,
                 'message' => $e->getMessage()
@@ -50,12 +53,14 @@ class AddressController extends Controller
             ]);
             $data = $this->addressService->update($validate, $id);
 
+            Log::info('Address Controller : Success update Address');
             return response()->json([
                 'code' => 200,
                 'message' => 'Ok',
                 'data' => $data
             ]);
         } catch (Exception $e) {
+            Log::error('Address Controller : got error => ' . $e->getMessage());
             return response()->json([
                 'code' => 500,
                 'message' => $e->getMessage()
@@ -68,11 +73,13 @@ class AddressController extends Controller
         try {
             $message = $this->addressService->delete($id);
 
+            Log::info('Address Controller : Success delete Address');
             return response()->json([
                 'code' => 200,
                 'message' => $message,
             ]);
         } catch (Exception $e) {
+            Log::error('Address Controller : got error => ' . $e->getMessage());
             return response()->json([
                 'code' => 500,
                 'message' => $e->getMessage()

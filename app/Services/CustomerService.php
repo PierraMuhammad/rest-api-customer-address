@@ -21,7 +21,7 @@ class CustomerService
 
             return $data;
         } catch (Exception $e) {
-            Log::error("Customer Service : Error get customers => " . $e->getMessage());
+            Log::error("Customer Service : Error get Customers => " . $e->getMessage());
             throw new Exception('Error get customers: ' . $e->getMessage());
         }
     }
@@ -37,7 +37,7 @@ class CustomerService
 
             return $data;
         } catch (Exception $e) {
-            Log::error('Customer Service : Error find customer => ' . $e->getMessage());
+            Log::error('Customer Service : Error find Customer => ' . $e->getMessage());
             throw new Exception('Error find customer: ' . $e->getMessage());
         }
     }
@@ -49,7 +49,7 @@ class CustomerService
 
             return $data?->makeHidden(['created_at', 'updated_at', 'id']);
         } catch (Exception $e) {
-            Log::error('Customer Service : Error create customer => ' . $e->getMessage());
+            Log::error('Customer Service : Error create Customer => ' . $e->getMessage());
             throw new Exception('Error create customer: ' . $e->getMessage());
         }
     }
@@ -72,7 +72,7 @@ class CustomerService
             $data = $this->customerRepository->findById($id);
             return $data?->makeHidden(['created_at', 'updated_at', 'id']);
         } catch (Exception $e) {
-            Log::error('Customer Service : Error update customer => ' . $e->getMessage());
+            Log::error('Customer Service : Error update Customer => ' . $e->getMessage());
             throw new Exception('Error update customer: ' . $e->getMessage());
         }
     }
@@ -94,7 +94,7 @@ class CustomerService
 
             return "Ok";
         } catch (Exception $e) {
-            Log::error('Customer Service : Error delete customer => ' . $e->getMessage());
+            Log::error('Customer Service : Error delete Customer => ' . $e->getMessage());
             throw new Exception('Error delete customer: ' . $e->getMessage());
         }
     }
