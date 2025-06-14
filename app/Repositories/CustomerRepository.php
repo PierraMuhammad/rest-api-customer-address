@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Customer;
+use Illuminate\Support\Facades\Log;
 
 class CustomerRepository
 {
@@ -13,12 +14,18 @@ class CustomerRepository
 
     public function findById(int $id)
     {
-        return Customer::with('address')->where('id', $id)->first();
+        $data = Customer::with('address')->where('id', $id)->first();
+
+        if (!$data) {
+            Log::warning("Customer Repository : Customer " . $id . " not found");
+        }
+
+        return $data;
     }
 
     public function create(array $array)
     {
-        return Customer::create([
+        $data = Customer::create([
             'title' => $array['title'],
             'name' => $array['name'],
             'gender' => $array['gender'],
@@ -26,11 +33,17 @@ class CustomerRepository
             'image' => $array['image'],
             'email' => $array['email']
         ]);
+
+        if (!$data) {
+            Log::error("Customer Repository : Failed to create Customer");
+        }
+
+        return $data;
     }
 
     public function update(array $array, int $id)
     {
-        return Customer::where('id', $id)->update([
+        $data = Customer::where('id', $id)->update([
             'title' => $array['title'],
             'name' => $array['name'],
             'gender' => $array['gender'],
@@ -38,13 +51,26 @@ class CustomerRepository
             'image' => $array['image'],
             'email' => $array['email']
         ]);
+
+        if (!$data) {
+            Log::error("Customer Repository : Failed to update Customer");
+        }
+
+        return $data;
     }
 
     public function delete(int $id)
     {
         $data = $this->findById($id);
         $data->address()->delete();
+        if ($data) {
+            Log::info("Customer Repository : relation customer " . $id . "is deleted");
+        }
 
-        return Customer::where('id', $id)->delete();
+        $result = Customer::where('id', $id)->delete();
+        if (!$result) {
+            Log::error("Customer Repository : Failed to delete Customer");
+        }
+        return $result;
     }
 }

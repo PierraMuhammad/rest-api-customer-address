@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\CustomerService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
@@ -17,12 +18,14 @@ class CustomerController extends Controller
         try {
             $data = $this->customerService->findAll();
 
+            Log::info('Customer Controller : Success get all Customers');
             return response()->json([
                 'code' => 200,
                 'message' => 'Ok',
                 'data' => $data
             ]);
         } catch (Exception $e) {
+            Log::error('Customer Controller : got error => ' . $e->getMessage());
             return response()->json([
                 'code' => 500,
                 'message' => $e->getMessage()
@@ -35,14 +38,16 @@ class CustomerController extends Controller
         try {
             $data = $this->customerService->findById($id);
 
+            Log::info('Customer Controller : Success find Customer by id');
             return response()->json([
                 'code' => 200,
                 'message' => 'Ok',
                 'data' => $data
             ]);
         } catch (Exception $e) {
+            Log::error('Customer Controller : got error => ' . $e->getMessage());
             return response()->json([
-                'code' => $e->getCode(),
+                'code' => 500,
                 'message' => $e->getMessage()
             ]);
         }
@@ -61,12 +66,14 @@ class CustomerController extends Controller
             ]);
             $result = $this->customerService->create($validate);
 
+            Log::info('Customer Controller : Success create Customer');
             return response()->json([
                 'code' => 200,
                 'message' => 'Ok',
                 'data' => $result
             ]);
         } catch (Exception $e) {
+            Log::error('Customer Controller : got error => ' . $e->getMessage());
             return response()->json([
                 'code' => 500,
                 'message' => $e->getMessage()
@@ -87,12 +94,14 @@ class CustomerController extends Controller
             ]);
             $data = $this->customerService->update($validate, $id);
 
+            Log::info('Customer Controller : Success update Customer');
             return response()->json([
                 'code' => 200,
                 'message' => 'Ok',
                 'data' => $data
             ]);
         } catch (Exception $e) {
+            Log::error('Customer Controller : got error => ' . $e->getMessage());
             return response()->json([
                 'code' => $e->getCode(),
                 'message' => $e->getMessage()
@@ -105,11 +114,13 @@ class CustomerController extends Controller
         try {
             $message = $this->customerService->delete($id);
 
+            Log::info('Customer Controller : Success delete Customer');
             return response()->json([
                 'code' => 200,
                 'message' => $message,
             ]);
         } catch (Exception $e) {
+            Log::error('Customer Controller : got error => ' . $e->getMessage());
             return response()->json([
                 'code' => 500,
                 'message' => $e->getMessage()
